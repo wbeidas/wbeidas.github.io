@@ -1,1 +1,95 @@
+<!DOCTYPE html> 
+<html> 
+    <head> 
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, maximum-scale=1.0" />
 
+        <title>Assignment 2!</title> 
+
+        <link href="style.css" media="screen" rel="stylesheet" type="text/css" />
+
+    </head> 
+    <body> 
+
+       <div class="header">
+            <h1>Assignment 2: Fade!</h1>
+            <p>
+            <img src="a2circuit.jpg" width=400></a>
+            
+            <br>^A picture of the circuit.
+            </p>
+            <p>
+            Here is all the documentation for assignment 2!
+            </p>
+            <p>
+            Below is the GIF of the circuit running.
+            </p>
+            <p>
+            <img src="a2.GIF" width=400></a>
+            </p>
+            <p>
+            Below is an image of the schematic
+            <br>
+            <img src="a2schematic.jpg" width=400></a>
+            <br>
+            The resistance was figured out by using the equation V=IR, [ 5V = 0.4A * R ] -> 125, nearest resistor is the 220 ohms.
+            <br>
+            <br>
+            <br>
+            Below is a snippet of the code used in Arduino.
+            </p>
+            <pre><code> 
+            // the setup function runs once when you press reset or power the board
+ // got helped from Kay Waller and stack overflow           
+int ledWhite = 8; //setting this to pin 8
+int button = 7; // button set to pin 5
+const int fade = 5; // fade counter
+
+void setup() {
+  pinMode(ledWhite, OUTPUT); //
+  pinMode(button, INPUT);
+  digitalWrite(ledWhite, LOW);
+
+}
+
+void loop() {
+  if(digitalRead(button) == HIGH) { 
+    delay(15);    // softwardebounce
+    if(digitalRead(button) == HIGH){ // if button is pressed
+      fadeLights(); // calling fadeLights
+    }
+  } else {
+    digitalWrite(ledWhite, HIGH); // if button is not pressed
+   }
+} 
+
+void fadeLights(){
+  
+    for( int i=255; i>=0; i--) {
+    analogWrite(ledWhite, i); // starts on the white since there is only one led
+    for( int y = 0; y < 1000; y++){
+      // if button is released
+      if (digitalRead(button) == LOW) {
+      return;
+      }
+    }
+  }
+
+
+  // this is similar to the above but strictly for the white led
+  for( int i=0; i<=255; i++) {
+    analogWrite(ledWhite, i);
+    for( int y = 0; y < 1000; y++){
+      // if button is released
+      if (digitalRead(button) == LOW) {
+      return;
+      }
+    }
+  }
+}
+            
+            </code></pre>
+        </div>
+        
+    </body>
+</html>
