@@ -48,3 +48,23 @@
             <br>
             <br>
             Below is a snippet of the code used in Arduino.
+            pre><code>
+                 const int photo = 0; //setting up A0
+ const int led = 9; // setting up led at pin 9
+ int photo_val; // initial value
+  
+void setup() {
+  // put your setup code here, to run once:
+ pinMode (led,OUTPUT); // setting up led output
+ analogWrite(led, 200); //making brightness 200 out of 255
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  photo_val = analogRead(photo); //photores value stored  in variable
+  int led_output = map(photo_val, 0, 1023, 0, 255); // translating photoresistor values
+  analogWrite(led, led_output); // writing mapped led brightness to led
+  delay(500); // make change noticable
+
+}
+                <code/>
