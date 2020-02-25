@@ -1,1 +1,73 @@
+<!DOCTYPE html> 
+<html> 
+    <head> 
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, maximum-scale=1.0" />
 
+        <title>Assignment 4!</title> 
+
+        <link href="style.css" media="screen" rel="stylesheet" type="text/css" />
+
+    </head> 
+    <body> 
+
+       <div class="header">
+            <h1>Assignment 4: Higher Voltages!</h1>
+            <p>
+            <img src="a4circuit.jpg" width=400></a>
+            
+            <br>^A picture of the circuit.
+            </p>
+            <p>
+            Here is all the documentation for assignment 4!
+            </p>
+            <p>
+            Below is the GIF of the circuit running.
+            </p>
+            <p>
+            <img src="a4gif.GIF" width=400></a>
+            </p>
+            <p>
+            Below is an image of the schematic. GOT HELP FROM STACKOVERFLOW AND ARDUINO AND KAY,LIA, ANTHONY, LILY
+            <br>
+                <img src="a4schematic.jpg" width=400></a>
+            <br>
+            </br>
+            <p>3.6V drop per white LED. 3 LEDs per segment of LED strip.</p>
+            <p>3.6V * 3 = 10.8V drop over the three LEDs.</p>
+            <p>12V (from power) = 10.8V (drop from LED) + V drop of resistor --> Resistor = 1.2V drop</p>
+            <p>Resistor on LED segment says '241' --> 240 Ohm resistor.</p>
+            <p>1.2/240 = 0.005A of current per LED segment</p>
+            <p>used 102 LEDs, or 34 segments --> 0.005A * 34 = 0.17A of current for my LED strip.</p>
+          </br>
+            <p>For the photoresistor,  10k ohm resistor used to make sure the current was fully grounded when the switch is off.</p>
+          </br>
+          </br>            
+            <br>       
+            <br>
+            <br>
+            <br>
+            Below is a snippet of the code used in Arduino.
+            <pre><code>
+ const int photo = 0; //setting up A0
+ const int led = 9; // setting up led at pin 9
+ int photo_val; // initial value
+  
+void setup() {
+  // put your setup code here, to run once:
+ pinMode (led,OUTPUT); // setting up led output
+ analogWrite(led, 200); //making brightness 200 out of 255
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  photo_val = analogRead(photo); //photores value stored  in variable
+  int led_output = map(photo_val, 0, 1023, 0, 255); // translating photoresistor values
+  analogWrite(led, led_output); // writing mapped led brightness to led
+  delay(500); // make change noticable
+
+}
+                <code/>
+                </div>
+    </body>
+</html>
