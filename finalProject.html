@@ -4,7 +4,7 @@
         <meta charset="utf-8"> 
         <meta name="viewport" content="width=device-width, maximum-scale=1.0" />
 
-        <title>Assignment 3!</title> 
+        <title>Final Project!</title> 
 
         <link href="style.css" media="screen" rel="stylesheet" type="text/css" />
 
@@ -12,14 +12,25 @@
     <body> 
 
        <div class="header">
-            <h1>Assignment 3: Input/Output!</h1>
+            <h1>Final, Traffic Light!</h1>
             <p>
-            <img src="a3.jpg" width=400></a>
+            <img src="a7circuit.jpg" width=400></a>
             
             <br>^A picture of the circuit.
+            <br>
+            <br>
+            <br>
             </p>
+            Concept: The concept is to replicate a traditional traffic lights with the red, yellow, and green lights. The changeLights function performs all the hard work. This rotates the traffic light through yellow and red, then back to green. As this gets called inside the loop function, the Arduino will run this code forever, with a 15-second pause every time.
+            The changeLights function consists of four distinct steps:
+            Green on, yellow off
+            Yellow off, red on
+            Yellow on, red on
+            Green on, red off, yellow off
+            These four steps replicate the process used in real traffic lights. For each step, the code is very similar. The appropriate LED gets turned on or off using digitalWrite. This is an Arduino function used to set output pins to HIGH (for on), or LOW (for off).
+            After enabling or disabling the required LEDs, the delay makes the Arduino wait for a given amount of time. Three seconds in this case.
             <p>
-            Here is all the documentation for assignment 3!
+            Here is all the documentation for the final project!
             </p>
             <p>
             Below is the GIF of the circuit running.
@@ -30,7 +41,7 @@
             <p>
             Below is an image of the schematic
             <br>
-            <img src="a3schematic.jpg" width=400></a>
+            <img src="a7schematic.jpg" width=400></a>
             <br>
             
             <br>
@@ -43,87 +54,45 @@
             Code and errors and allowed for my circuit to work.
             <br>
             <br>
-              // Constants don't change. They are for assigning names to the pins
-              const int photoResistor = A0;  // Analog input pin for the photoresistor
-              // Constants for the RGB LED
-              const int redLED = 9; // pin red LED
-              const int greenLED = 10; // pin green LED
-              const int blueLED = 11; // pin blue LED
-
-              // value that will be assigned to photoresistor
-              // based on the analogRead (values: 0 - 1023)
-              int sensorValue = 0;
-              // value from photoresistor that will be 'remapped'
-              // to a new wanted range
-              int changedValue = 0;
-
-
-              void setup() {
-                // initialize serial communications so
-                // I can see my values in the serial monitor
-                Serial.begin(9600);
-
-                // initialize photoresistor as input
-                pinMode(photoResistor, INPUT);
-
-                // initalize RGB LED pins to use analogWrite()
-                for (int i = 9; i < 12; i++) {
-                  pinMode(i, OUTPUT);
-                }
-              }
-
+              int red = 10; //red led is pin 10
+              int yellow = 9; // yellow led is pin 9
+              int green = 8; // green led is pin 8
+              int button = 12; // switch is on pin 12
+              void setup(){
+              pinMode(red, OUTPUT);
+              pinMode(yellow, OUTPUT);
+              pinMode(green, OUTPUT);
+              pinMode(button, INPUT);
+              digitalWrite(green, HIGH);
+            }
               void loop() {
-                // Attain the voltage from photoResistor based on light
-                sensorValue = analogRead(photoResistor);
-                // Then translate that number with map to new a range of 0 - 255
-                changedValue = map(sensorValue, 240, 990, 0, 255);
-
-
-                // Note: Dark is around 240 and super bright is around 990 (on the scale 0 - 1023)
-
-                // value from photoresistor is small (it means it's dark)
-                // LED changes to lime green
-                if (changedValue < 60) {
-                  // make the red LED almost full brightness
-                  analogWrite(redLED, 200);
-                  // make the green led full brightness
-                  analogWrite(greenLED, 255);
-                  // turn off blue LED
-                  analogWrite(blueLED, 0);
-                }
-                // If the light value from photoresistor is normal brightness
-                // LED changes to bright, deep red
-                else if (changedValue >= 60 && changedValue < 170) {
-                  // make the red LED full brightness
-                  analogWrite(redLED, 255);
-                  // turn off green LED
-                  analogWrite(greenLED, 0);
-                  // turn off blue LED
-                  analogWrite(blueLED, 0);
-                }
-                // light value from photoresistor is high (light source is really bright)
-                // LED changes to a light blue
-                else {
-                  // make the red LED less than half brightness
-                  analogWrite(redLED, 77);
-                  // make green LED almost full brightness
-                  analogWrite(greenLED, 204);
-                  // make blue LED full brightness
-                  analogWrite(blueLED, 255);
-                }
-
-                // print the two sensor values to the Serial Monitor:
-                // Print the photoresistor sensor value
-                Serial.print("sensor value = ");
-                Serial.print(sensorValue);
-                // print a line space
-                Serial.println();
-                // print the photoresistor's value changed after the
-                // remapping the values to a new range
-                Serial.print("\t changed value after map()  = ");
-                Serial.println(changedValue);
-                // delay 0.01 milliseconds before the next loop
-                delay(10);
+              if (digitalRead(button) == HIGH){
+              delay(15); // software debounce
+              if (digitalRead(button) == HIGH) {
+            // if the switch is HIGH, ie. pushed down - change the lights!
+            changeLights();
+            delay(3000); // wait for 3 seconds
+        }
+    }
+}
+            void changeLights(){
+            // green off, yellow on for 2 seconds
+            digitalWrite(green, LOW);
+            digitalWrite(yellow, HIGH);
+            delay(2000);
+            // turn off yellow, then turn red on for 2 seconds
+            digitalWrite(yellow, LOW);
+            digitalWrite(red, HIGH);
+            delay(2000);
+            // red and yellow on for 2 seconds (red is already on though)
+            digitalWrite(yellow, HIGH);
+            delay(2000);
+            // turn off red and yellow, then turn o n green
+            digitalWrite(yellow, LOW);
+            digitalWrite(red, LOW);
+            digitalWrite(green, HIGH);
+            delay(2000);
+}
             </code></pre>
         </div>
         
